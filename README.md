@@ -19,27 +19,7 @@ A Magit-like Emacs interface to [HTCondor](https://htcondor.org/):
 - `C-h` followed by a flag's key in any menu opens the man page at that
   flag. Moving onto a job explains its state in the echo area.
 
-```
-Schedd:  submit.example.org   User: alice   Refreshed 11:26:40
-Pool:    4/96 CPUs busy · 2 machines · 2 of your jobs idle · priority 500.0
-States:  R running  I idle  H held  > transferring output  C completed  X removed
-
-Held (2)
-  1234.2   train_net   H               Job has gone over memory limit of 4096 megabytes…
-  1241.0   eval.sh     H               via condor_hold (by user alice)
-
-My jobs (6)
-  1234     train_net   R 1  I 1  H 1   2h13m
-    1234.0             R               2h13m
-    1234.1             I               2h46m
-    1234.2             H               Job has gone over memory limit of 4096 megabytes…
-  1240     plots.py    I 1
-  1241     eval.sh     H 1
-  1300     mc_gen      R 1             16m
-
-Recently finished (last 24h) (3)
-  1201     sim_batch   C 2  X 1        ✗ 1 failed
-```
+![The condorit status buffer: held jobs with their reasons, the queue grouped by cluster, and recently finished jobs](docs/condorit_screenshot.png)
 
 ## Install
 
