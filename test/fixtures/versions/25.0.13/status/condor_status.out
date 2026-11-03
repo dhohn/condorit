@@ -1,0 +1,48 @@
+[
+{
+  "Activity": "Idle",
+  "Cpus": 2,
+  "Disk": 737164,
+  "LoadAvg": 2.0,
+  "Machine": "submit.example.org",
+  "Memory": 3840,
+  "Name": "slot1@submit.example.org",
+  "SlotType": "Partitionable",
+  "State": "Unclaimed",
+  "TotalSlotCpus": 4,
+  "TotalSlotDisk": 870284.0,
+  "TotalSlotMemory": 4096
+}
+,
+{
+  "Activity": "Busy",
+  "Cpus": 1,
+  "Disk": 66560,
+  "LoadAvg": 1.0,
+  "Machine": "submit.example.org",
+  "Memory": 128,
+  "Name": "slot1_2@submit.example.org",
+  "RemoteOwner": "alice@submit.example.org",
+  "SlotType": "Dynamic",
+  "State": "Claimed",
+  "TotalSlotCpus": 1,
+  "TotalSlotDisk": 66560.0,
+  "TotalSlotMemory": 128
+}
+,
+{
+  "Activity": "Busy",
+  "Cpus": 1,
+  "Disk": 66560,
+  "LoadAvg": 0.91,
+  "Machine": "submit.example.org",
+  "Memory": 128,
+  "Name": "slot1_3@submit.example.org",
+  "RemoteOwner": "alice@submit.example.org",
+  "SlotType": "Dynamic",
+  "State": "Claimed",
+  "TotalSlotCpus": 1,
+  "TotalSlotDisk": 66560.0,
+  "TotalSlotMemory": 128
+}
+]

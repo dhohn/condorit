@@ -1,0 +1,29 @@
+# A personal pool for the live tests: every daemon as the calling user,
+# on 127.0.0.1 only, with one partitionable slot of 4 CPUs and 4 GB.
+RELEASE_DIR = /usr
+LIBEXEC = /usr/libexec/condor
+LOCAL_DIR = /work/local
+use ROLE: Personal
+NETWORK_INTERFACE = 127.0.0.1
+USE_SHARED_PORT = False
+SEC_DEFAULT_AUTHENTICATION_METHODS = FS
+SEC_CLIENT_AUTHENTICATION_METHODS = FS
+ALLOW_READ = *
+ALLOW_WRITE = *
+ALLOW_ADMINISTRATOR = *
+ALLOW_DAEMON = *
+NUM_CPUS = 4
+MEMORY = 4096
+NUM_SLOTS_TYPE_1 = 1
+SLOT_TYPE_1 = 100%
+SLOT_TYPE_1_PARTITIONABLE = True
+START = True
+SUSPEND = False
+PREEMPT = False
+KILL = False
+# Short cycles, so the scenario settles in seconds.
+NEGOTIATOR_INTERVAL = 2
+SCHEDD_INTERVAL = 2
+UPDATE_INTERVAL = 2
+STARTER_UPDATE_INTERVAL = 2
+SHADOW_QUEUE_UPDATE_INTERVAL = 2

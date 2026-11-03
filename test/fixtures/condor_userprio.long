@@ -1,0 +1,19 @@
+AccountingGroup = "<none>"
+IsAccountingGroup = true
+Name = "<none>"
+Priority = 605277.875
+PriorityFactor = 1000.0
+ResourcesUsed = 53
+
+AccountingGroup = "<none>"
+Name = "alice@example.org"
+Priority = 500.0
+PriorityFactor = 1000.0
+ResourcesUsed = 4
+WeightedAccumulatedUsage = 807016726528.0
+
+Name = "bob@example.org"
+Priority = 2250.0
+PriorityFactor = 1000.0
+ResourcesUsed = 12
+LastUsageTime = 1791969519

@@ -1,0 +1,5 @@
+[
+{"Name": "slot1@wn01.example.org", "Machine": "wn01.example.org", "State": "Unclaimed", "Activity": "Idle", "SlotType": "Partitionable", "Cpus": 28, "Memory": 100000, "TotalSlotCpus": 32, "TotalSlotMemory": 128000, "LoadAvg": 0.5},
+{"Name": "slot1_1@wn01.example.org", "Machine": "wn01.example.org", "State": "Claimed", "Activity": "Busy", "SlotType": "Dynamic", "Cpus": 4, "Memory": 28000, "LoadAvg": 3.9, "RemoteOwner": "alice@example.org"},
+{"Name": "slot1@wn02.example.org", "Machine": "wn02.example.org", "State": "Unclaimed", "Activity": "Idle", "SlotType": "Partitionable", "Cpus": 64, "Memory": 256000, "TotalSlotCpus": 64, "TotalSlotMemory": 256000, "LoadAvg": 0.0}
+]

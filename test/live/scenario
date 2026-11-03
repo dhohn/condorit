@@ -1,0 +1,63 @@
+#!/bin/sh
+# Bring the live pool (see pool) into the state the version tests check:
+#
+#   queue    running   2 jobs running
+#            held      1 job held at submit (hold = True)
+#            policy    1 job held by on_exit_hold when it exited
+#            toobig    1 job idle, asking for more memory than the slot has
+#   history  done      exit 0
+#            failed    exit 3
+#            removed   removed by condor_rm while it ran
+set -eu
+here=$(cd "$(dirname "$0")" && pwd)
+dir=${CONDORIT_LIVE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/condorit-live}
+PATH=$here/bin:$PATH
+
+submit() {   # submit BATCH COMMAND [SUBMIT LINES...]; $procs jobs (default 1)
+  batch=$1 command=$2
+  shift 2
+  {
+    echo "executable = /bin/sh"
+    echo "arguments = \"-c '$command'\""
+    echo "batch_name = $batch"
+    echo "log = $batch.log"
+    echo "output = $batch.out"
+    echo "error = $batch.err"
+    echo "request_cpus = 1"
+    echo "request_memory = 128"
+    echo "request_disk = 64M"
+    for line in "$@"; do echo "$line"; done
+    echo "queue ${procs:-1}"
+  } >"$dir/run/$batch.sub"
+  condor_submit "$batch.sub" | sed -n 's/.*submitted to cluster \([0-9]*\)\./\1/p'
+}
+
+# count CONSTRAINT: jobs in the queue that match
+count() { condor_q -af ClusterId -constraint "$1" | wc -l; }
+# wait_for TEXT TEST: retry TEST for up to 60 s
+wait_for() {
+  i=0
+  until eval "$2"; do
+    i=$((i + 1))
+    if [ $i -gt 60 ]; then echo "scenario: timed out waiting for $1" >&2; exit 1; fi
+    sleep 1
+  done
+}
+
+submit done 'exit 0' >/dev/null
+submit failed 'exit 3' >/dev/null
+submit policy 'exit 0' 'on_exit_hold = True' 'on_exit_hold_reason = "Held by on_exit_hold"' >/dev/null
+removed=$(submit removed 'sleep 3600')
+procs=2
+submit running 'sleep 3600' >/dev/null
+procs=1
+submit held 'sleep 3600' 'hold = True' >/dev/null
+submit toobig 'sleep 3600' 'request_memory = 100000' >/dev/null
+
+wait_for "the policy hold" '[ "$(count "JobBatchName == \"policy\" && JobStatus == 5")" -eq 1 ]'
+wait_for "the running jobs" '[ "$(count "JobStatus == 2")" -eq 3 ]'
+condor_rm "$removed" >/dev/null
+wait_for "done, failed and removed to leave the queue" \
+  '[ "$(count "JobBatchName == \"done\" || JobBatchName == \"failed\" || JobBatchName == \"removed\"")" -eq 0 ]'
+# The negotiator has seen the idle job and the usage is accounted.
+sleep 5

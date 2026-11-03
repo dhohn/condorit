@@ -1,0 +1,5 @@
+[
+{"Name": "login.example.org", "TotalHeldJobs": 0, "TotalIdleJobs": 0, "TotalRunningJobs": 0},
+{"Name": "sched2.example.org", "TotalHeldJobs": 1, "TotalIdleJobs": 2, "TotalRunningJobs": 100},
+{"Name": "sched1.example.org", "TotalHeldJobs": 0, "TotalIdleJobs": 600, "TotalRunningJobs": 900}
+]

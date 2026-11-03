@@ -1,0 +1,16 @@
+#!/bin/sh
+# Stand-in for condor_* commands in tests.  Records its argv (tab
+# separated) and replays canned output from $CONDORIT_TEST_RESPONSES.
+name=$(basename "$0")
+if [ -n "$CONDORIT_TEST_ARGLOG" ]; then
+  # Build the line first and append it with one write, so parallel
+  # invocations cannot interleave their records.
+  line=$name
+  for a in "$@"; do line=$(printf '%s\t%s' "$line" "$a"); done
+  printf '%s\n' "$line" >> "$CONDORIT_TEST_ARGLOG"
+fi
+dir=$CONDORIT_TEST_RESPONSES
+[ -f "$dir/$name.out" ] && cat "$dir/$name.out"
+[ -f "$dir/$name.err" ] && cat "$dir/$name.err" >&2
+[ -f "$dir/$name.exit" ] && exit "$(cat "$dir/$name.exit")"
+exit 0

@@ -1,0 +1,38 @@
+#!/bin/sh
+# A personal HTCondor pool from the htcondor/mini image, in an apptainer
+# instance.  The condor_* commands in test/live/bin run inside it.
+#
+#   test/live/pool start TAG   start it from htcondor/mini:TAG (pulled once)
+#   test/live/pool stop
+#
+# Images and the pool's files live in $CONDORIT_LIVE_DIR (default
+# ~/.cache/condorit-live); $APPTAINER names the apptainer binary.
+set -eu
+here=$(cd "$(dirname "$0")" && pwd)
+dir=${CONDORIT_LIVE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/condorit-live}
+apptainer=${APPTAINER:-apptainer}
+instance=condorit-live
+
+case ${1:-} in
+  start)
+    tag=${2:?usage: pool start TAG}
+    image=$dir/images/mini-$tag.sif
+    mkdir -p "$dir/images"
+    [ -f "$image" ] || "$apptainer" pull "$image" "docker://htcondor/mini:$tag"
+    "$apptainer" instance stop "$instance" >/dev/null 2>&1 || true
+    rm -rf "$dir/run"
+    mkdir -p "$dir/run/local/log" "$dir/run/local/spool" "$dir/run/local/execute" "$dir/run/local/lock"
+    cp "$here/condor_config" "$dir/run/"
+    "$apptainer" instance start --cleanenv --containall --bind "$dir/run:/work" "$image" "$instance"
+    "$here/bin/condor_master"
+    i=0
+    until [ -n "$("$here/bin/condor_status" -af Name 2>/dev/null)" ]; do
+      i=$((i + 1))
+      if [ $i -gt 60 ]; then echo "pool: no slot after 60 s" >&2; exit 1; fi
+      sleep 1
+    done ;;
+  stop)
+    "$apptainer" instance stop "$instance" >/dev/null 2>&1 || true ;;
+  *)
+    echo "usage: pool start TAG | pool stop" >&2; exit 2 ;;
+esac

@@ -1,0 +1,33 @@
+AccountingGroup = "<none>"
+Ceiling = -1
+ConfigQuota = 0.0
+EffectiveQuota = 0.0
+Floor = 0
+GroupSortKey = 0.0
+HierWeightedResourcesUsed = 4.0
+IsAccountingGroup = true
+LastUpdate = 1793190863
+Name = "<none>"
+Priority = 500.0
+PriorityFactor = 1000.0
+Requested = 0.0
+ResourcesUsed = 1
+SubmitterLimit = 0.0
+SubmitterShare = 0.0
+SubtreeQuota = 0.0
+SurplusPolicy = "byquota"
+WeightedResourcesUsed = 4.0
+
+AccountingGroup = "<none>"
+Ceiling = -1
+Floor = 0
+IsAccountingGroup = false
+LastUpdate = 1793190863
+Name = "alice@submit.example.org"
+Priority = 500.0
+PriorityFactor = 1000.0
+ResourcesUsed = 1
+SubmitterLimit = 4.0
+SubmitterShare = 1.0
+WeightedResourcesUsed = 4.0
+

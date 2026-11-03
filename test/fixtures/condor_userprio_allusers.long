@@ -1,0 +1,15 @@
+AccountingGroup1 = "<none>"
+AccountingGroup2 = "<none>"
+IsAccountingGroup1 = false
+IsAccountingGroup2 = false
+LastUpdate = 1791971436
+Name1 = "alice@example.org"
+Name2 = "bob@example.org"
+NumSubmittors = 2
+Priority1 = 500.0
+Priority2 = 2250.0
+PriorityFactor1 = 1000.0
+PriorityFactor2 = 1000.0
+ResourcesUsed1 = 4
+ResourcesUsed2 = 12
+

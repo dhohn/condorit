@@ -1,0 +1,5 @@
+[
+{"ClusterId": 1201, "ProcId": 0, "JobStatus": 4, "Owner": "alice", "JobBatchName": "sim_batch", "Cmd": "/home/alice/sim/sim.sh", "ExitCode": 0, "ExitBySignal": false, "CompletionDate": 1791965000, "EnteredCurrentStatus": 1791965000, "Iwd": "/home/alice/sim", "UserLog": "sim.log", "Out": "sim.0.out", "Err": "sim.0.err"},
+{"ClusterId": 1201, "ProcId": 1, "JobStatus": 4, "Owner": "alice", "JobBatchName": "sim_batch", "Cmd": "/home/alice/sim/sim.sh", "ExitCode": 2, "ExitBySignal": false, "CompletionDate": 1791965100, "EnteredCurrentStatus": 1791965100, "Iwd": "/home/alice/sim", "UserLog": "sim.log", "Out": "sim.1.out", "Err": "sim.1.err"},
+{"ClusterId": 1201, "ProcId": 2, "JobStatus": 3, "Owner": "alice", "JobBatchName": "sim_batch", "Cmd": "/home/alice/sim/sim.sh", "CompletionDate": 0, "EnteredCurrentStatus": 1791966000, "RemoveReason": "via condor_rm (by user alice)", "Iwd": "/home/alice/sim"}
+]

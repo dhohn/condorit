@@ -1,0 +1,24 @@
+#!/bin/sh
+# Runs the condor_* command it is called as inside the live pool (see
+# ../pool).  With $CONDORIT_RECORD set, it also saves stdout, stderr and
+# the exit code there, as test/bin/fake-condor replays them, with this
+# host's and user's names replaced by submit.example.org and alice.
+name=$(basename "$0")
+run() {
+  "${APPTAINER:-apptainer}" exec --env CONDOR_CONFIG=/work/condor_config --pwd /work \
+    instance://condorit-live "$name" "$@"
+}
+[ -n "${CONDORIT_RECORD:-}" ] || { run "$@"; exit; }
+mkdir -p "$CONDORIT_RECORD"
+out=$CONDORIT_RECORD/$name
+run "$@" >"$out.out" 2>"$out.err"
+status=$?
+cat "$out.out"
+cat "$out.err" >&2
+quote() { printf '%s' "$1" | sed 's/[.[\*^$/]/\\&/g'; }
+sed -i -e "s/$(quote "$(hostname -f)")/submit.example.org/g" \
+       -e "s/$(quote "$(hostname -s)")/submit/g" \
+       -e "s/$(quote "$(id -un)")/alice/g" "$out.out" "$out.err"
+[ -s "$out.err" ] || rm "$out.err"
+if [ $status -ne 0 ]; then echo $status >"$out.exit"; else rm -f "$out.exit"; fi
+exit $status
