@@ -43,15 +43,26 @@
 (require 'condorit-history)
 (require 'condorit-dispatch)
 
+(defcustom condorit-default-directory nil
+  "Directory whose host `condorit' uses when called without a prefix.
+A TRAMP directory such as \"/ssh:login-node:\" makes `condorit' work
+with the schedd there from any buffer.  nil means the host of
+`default-directory'."
+  :type '(choice (const :tag "Host of the current buffer" nil)
+                 (directory :tag "Directory"))
+  :group 'condorit)
+
 ;;;###autoload
 (defun condorit (&optional directory)
   "Open the HTCondor status buffer.
-With a prefix argument, ask for a DIRECTORY whose host to use, e.g.
-/ssh:login-node: to work with the schedd there through TRAMP."
+Use the host of DIRECTORY, which defaults to
+`condorit-default-directory' or else `default-directory'.  With a
+prefix argument, ask for DIRECTORY, e.g. /ssh:login-node: to work
+with the schedd there through TRAMP."
   (interactive
    (list (and current-prefix-arg
               (read-directory-name "Condor host (directory): " "/ssh:"))))
-  (condorit-status directory))
+  (condorit-status (or directory condorit-default-directory)))
 
 (provide 'condorit)
 ;;; condorit.el ends here

@@ -126,6 +126,20 @@
       (should-not asked)
       (should (null opened)))))
 
+(ert-deftest condorit-remote-default-directory-option ()
+  (let (opened)
+    (cl-letf (((symbol-function 'read-directory-name)
+               (lambda (&rest _) "/ssh:login2:/home/a/"))
+              ((symbol-function 'condorit-status) (lambda (&optional dir) (setq opened dir))))
+      (let ((condorit-default-directory "/ssh:login1:"))
+        (let ((current-prefix-arg nil))
+          (call-interactively #'condorit))
+        (should (equal opened "/ssh:login1:"))
+        ;; The prefix argument still asks, and wins.
+        (let ((current-prefix-arg '(4)))
+          (call-interactively #'condorit))
+        (should (equal opened "/ssh:login2:/home/a/"))))))
+
 (ert-deftest condorit-remote-run-avoids-tramp-stderr-buffers ()
   ;; Without direct async, TRAMP implements a :stderr buffer with an
   ;; extra remote shell that stalls now and then for ~5s.  condorit must

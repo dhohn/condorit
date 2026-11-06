@@ -127,6 +127,9 @@ over TRAMP:
   open at once.
 - `M-x condorit` from any buffer visiting a remote file or directory uses that
   host.
+- To always use one host, set `condorit-default-directory`, e.g.
+  `(setq condorit-default-directory "/ssh:login-node:")`. Plain `M-x condorit`
+  then opens that host from any buffer; `C-u M-x condorit` still asks.
 - Log, stdout and stderr files (`l`) open remotely.
 
 For speed, enable TRAMP's direct async processes for your hosts and let ssh
