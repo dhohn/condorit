@@ -30,6 +30,13 @@
 (defconst condorit-test-fixtures-dir (expand-file-name "fixtures" condorit-test-dir))
 (defconst condorit-test-bin-dir (expand-file-name "bin" condorit-test-dir))
 
+(when (boundp 'native-comp-enable-subr-trampolines)
+  ;; `cl-letf' on a primitive makes Emacs native-compile a trampoline,
+  ;; which fails where the native compiler is broken (and is slow where
+  ;; it works).  condorit is byte-compiled in the tests, so its calls go
+  ;; through the symbol and see the mock anyway.
+  (setq native-comp-enable-subr-trampolines nil))
+
 (defconst condorit-test-now 1791970000
   "Fixed \"current time\" for tests; the fixtures are relative to it.")
 

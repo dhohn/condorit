@@ -27,6 +27,11 @@
      (connection-local-set-profile-variables
       'condorit-test-direct '((tramp-direct-async-process . t)))
      (connection-local-set-profiles criteria 'condorit-test-direct)
+     ;; TRAMP refuses direct async commands longer than the remote
+     ;; PIPE_BUF.  The mock host is this machine, which on macOS has
+     ;; only 512; pretend to be Linux, where clusters run.
+     (tramp-set-connection-property
+      (tramp-dissect-file-name default-directory) "pipe-buf" 4096)
      (unwind-protect (progn ,@body)
        (setq connection-local-criteria-alist
              (seq-remove (lambda (entry) (equal (car entry) criteria))
